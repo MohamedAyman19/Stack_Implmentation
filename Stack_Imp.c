@@ -12,7 +12,7 @@ Node* head=NULL;
 void push(uint8_t u8_data);
 uint8_t pop();
 void pintstack();
-
+uint8_t*balancedParentheses(uint8_t* expression);
 
 
 //char stacklength 5;
@@ -22,10 +22,11 @@ void main(void)
 {
 	uint8_t u8_SendRecieved;
 	uint32_t u32_operation;
+	uint8_t exp[20];
 
 	while(1)
 	{
-    	printf("press 1 to push\n2 to pop\n3 to print the stack\nnumber is :");
+    	printf("press 1 to push\n2 to pop\n3 to print the stack\n4 to check an expression\nnumber is :");
 	    scanf("%d",&u32_operation);
 		switch(u32_operation)
 		{
@@ -39,6 +40,11 @@ void main(void)
 			break;
 			case 3:
 			pintstack();
+			break;
+			case 4:
+			printf("write the expression : ");
+			scanf("%s",exp);
+			printf("%s\n",balancedParentheses(exp));
 			break;
 			default:
 			printf("Enter a valid choice\n");
@@ -79,7 +85,7 @@ uint8_t pop()
 	head=head->next;
 	tempdata=temp->data;
 	free(temp);
-	printf("value: %d is popped\n",tempdata);	
+	//printf("value: %d is popped\n",tempdata);	
 	return tempdata;
 }
 void pintstack()
@@ -101,7 +107,47 @@ void pintstack()
 	}
 	
 }
-
-
+uint8_t*balancedParentheses(uint8_t* expression)
+{
+	uint8_t check=0;
+	uint8_t i=0;
+	uint8_t temp;
+	while(expression[i]!='\0')
+	{
+		if(expression[i]=='{'||expression[i]=='(')
+		{
+			push(expression[i]);
+			check++;
+		}
+		else if(expression[i]=='}'||expression[i]==')')
+		{
+			if(!check)
+				return "unbalanced";
+			
+			temp=pop();
+			check--;
+			if(!((expression[i]=='}'&&temp=='{')||(expression[i]==')'&&temp=='(')))
+				{
+					while(check)
+					{
+						pop();
+						check--;
+					}
+					return "unbalanced";
+				}
+		}
+		i++;
+	}
+	if(check)
+	{
+		while(check)
+		{
+			pop();
+			check--;
+		}
+		return "unbalanced";
+	}
+return "balanced";	
+}
 
 
