@@ -14,10 +14,6 @@ uint8_t pop();
 void pintstack();
 uint8_t*balancedParentheses(uint8_t* expression);
 
-
-//char stacklength 5;
-//int stack[5]
-
 void main(void)  
 {
 	uint8_t u8_SendRecieved;
