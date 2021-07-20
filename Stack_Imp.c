@@ -1,6 +1,7 @@
 #include<stdio.h>
 #include <stdlib.h>
 #include "TypeDef.h"
+#define stack_depth 20               //stack depth is 20
 typedef struct Node
 {
 uint8_t data;
@@ -14,6 +15,7 @@ uint8_t pop();
 void pintstack();
 uint8_t*balancedParentheses(uint8_t* expression);
 
+uint8_t depth=0;
 void main(void)  
 {
 	uint8_t u8_SendRecieved;
@@ -61,11 +63,16 @@ void push(uint8_t u8_data)
 	{
 		printf("heap memory is full\n");
 	}
+	else if(depth==stack_depth)
+	{
+		printf("stack overflow\n");
+	}
 	else
 	{
 		(newnode->data)=u8_data;
 		(newnode->next)=head;
 		head=newnode;
+		depth++;
 	}
 	
 }
@@ -82,6 +89,7 @@ uint8_t pop()
 	tempdata=temp->data;
 	free(temp);
 	//printf("value: %d is popped\n",tempdata);	
+	depth--;
 	return tempdata;
 }
 void pintstack()
@@ -145,5 +153,3 @@ uint8_t*balancedParentheses(uint8_t* expression)
 	}
 return "balanced";	
 }
-
-
